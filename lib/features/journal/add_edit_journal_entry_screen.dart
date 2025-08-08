@@ -51,6 +51,31 @@ class _AddEditJournalEntryScreenState
     if (picked != null) setState(() => _photo = File(picked.path));
   }
 
+  Future<void> _delete() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete entry?'),
+        content: const Text('This action cannot be undone.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      await ref.read(journalServiceProvider).deleteEntry(widget.existing!.id);
+      context.go('/journal/${widget.plantId}');
+    }
+  }
+
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
     final svc = ref.read(journalServiceProvider);
@@ -79,7 +104,18 @@ class _AddEditJournalEntryScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_isEditing ? 'Edit Entry' : 'New Entry')),
+      appBar: AppBar(
+        title: Text(_isEditing ? 'Edit Entry' : 'New Entry'),
+        actions: _isEditing
+            ? [
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  tooltip: 'Delete Entry',
+                  onPressed: _delete,
+                ),
+              ]
+            : null,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(

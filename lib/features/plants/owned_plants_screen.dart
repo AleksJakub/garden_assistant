@@ -13,8 +13,7 @@ class OwnedPlantsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final plantsAsync = ref.watch(watchAllPlantsProvider);
-    // we'll define this next
+    final plantsAsync = ref.watch(watchAllPlantsProvider); // stream of all owned plants
 
     return Scaffold(
       appBar: AppBar(title: const Text('My Plants')),

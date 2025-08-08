@@ -37,8 +37,8 @@ class JournalScreen extends ConsumerWidget {
             itemBuilder: (ctx, i) {
               final entry = entries[i];
 
-              // determine which plantId to use for navigation:
-              final eidPlantId = plantId ?? entry.plantId;
+              // Determine the plant ID used for navigation:
+              final entryPlantId = plantId ?? entry.plantId;
 
               return Dismissible(
                 key: ValueKey(entry.id),
@@ -76,11 +76,11 @@ class JournalScreen extends ConsumerWidget {
                     icon: const Icon(Icons.edit),
                     tooltip: 'Edit Entry',
                     onPressed: () {
-                      context.go('/journal/$eidPlantId/add', extra: entry);
+                      context.go('/journal/$entryPlantId/add', extra: entry);
                     },
                   ),
                   onTap: () {
-                    context.go('/journal/$eidPlantId/add', extra: entry);
+                    context.go('/journal/$entryPlantId/add', extra: entry);
                   },
                 ),
               );

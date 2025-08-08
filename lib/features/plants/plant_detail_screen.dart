@@ -31,15 +31,6 @@ class PlantDetailScreen extends ConsumerWidget {
             leading: BackButton(onPressed: () => context.pop()),
             title: Text(plant.nickname ?? plant.speciesId.capitalize()),
             actions: [
-              // View this plant's journal entries
-              IconButton(
-                icon: const Icon(Icons.book),
-                tooltip: 'View Journal',
-                onPressed: () {
-                  context.go('/journal/${plant.id}');
-                },
-              ),
-
               // Create a new journal entry for this plant
               IconButton(
                 icon: const Icon(Icons.add_comment),

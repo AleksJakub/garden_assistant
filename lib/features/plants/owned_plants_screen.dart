@@ -30,6 +30,11 @@ class OwnedPlantsScreen extends ConsumerWidget {
             separatorBuilder: (_, __) => const Divider(),
             itemBuilder: (ctx, i) {
               final p = plants[i];
+              final nextWater = p.acquiredAt == null
+                  ? null
+                  : p.acquiredAt!
+                      .add(Duration(days: p.customWaterIntervalDays ?? 0))
+                      .toLocal();
               return ListTile(
                 leading: p.photoPath != null
                     ? Image.file(
@@ -41,7 +46,7 @@ class OwnedPlantsScreen extends ConsumerWidget {
                     : const Icon(Icons.local_florist),
                 title: Text(p.nickname ?? p.speciesId),
                 subtitle: Text(
-                  'Next water: ${p.acquiredAt?.add(Duration(days: p.customWaterIntervalDays ?? 0)).toLocal().toString().split(' ').first ?? ''}',
+                  'Next water: ${nextWater?.toString().split(' ').first ?? ''}',
                 ),
                 onTap: () => context.go('/plants/${p.id}'),
               );
